@@ -40,13 +40,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Register
+                    <a class="nav-link" href="buat_akun.php">
+                        Register Account
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="login.php">
                         Login
                     </a>
                 </li>

@@ -1,3 +1,30 @@
+<?php
+
+require "fungsi.php";
+
+if(isset($_POST['buatakun'])){
+
+    $hasil = buatAkun($_POST);
+
+    if($hasil > 0){
+        echo "<script>
+            alert('Berhasil');
+            document.location.href='login.php';
+        </script>";
+    }else if($hasil == -1){
+        echo "<script>
+            alert('Akun Sudah Terdaftar')
+        </script>";
+    }else{
+        echo "<script>
+            alert('Gagal')
+        </script>";
+    }
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +42,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
 
-        <a class="navbar-brand fw-bold" href="#">
+        <a class="navbar-brand fw-bold" href="index.php">
             ASPMB
         </a>
 
@@ -34,19 +61,19 @@
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="index.php">
                         Home
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="buat_akun.php">
                         Register
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="login.php">
                         Login
                     </a>
                 </li>
@@ -60,7 +87,7 @@
     </div>
 </nav>
 
-<h2 class="text-center">REGISTRASI AKUN MURIB BARU</h2>
+<h2 class="text-center">REGISTRASI AKUN MURID BARU</h2>
 
 <section>
     <div class="container">
@@ -87,58 +114,7 @@
 
     </div>
 
-    <?php
-
-require('koneksi.php');
-
-if(isset($_POST['buatakun'])){
-
-    $username = strtolower(trim($_POST['username']));
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
     
-    // cek username
-    $hasilCek = mysqli_query(
-        $koneksi,
-        "SELECT username FROM tbl_user WHERE username='$username'"
-    );
-
-    if(mysqli_fetch_assoc($hasilCek)){
-
-        echo "<script>
-                alert('Username sudah terdaftar');
-              </script>";
-
-    }else{
-
-        $passwordHash =
-            password_hash($password, PASSWORD_DEFAULT);
-
-        $query = mysqli_query(
-            $koneksi,
-            "INSERT INTO tbl_user(username,password,email)
-             VALUES(
-                '$username',
-                '$passwordHash',
-                '$email'
-             )"
-        );
-
-        if($query){
-
-            echo "<script>
-                    alert('Registrasi berhasil');
-                  </script>";
-
-        }else{
-
-            echo mysqli_error($koneksi);
-
-        }
-    }
-}
-?>
-
 </section>
 
 
