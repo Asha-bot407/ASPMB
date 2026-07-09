@@ -96,17 +96,40 @@ function registrasi($datareg){
     $alamat = mysqli_real_escape_string($koneksi, $datareg['alamat']);
     $telepon = mysqli_real_escape_string($koneksi, $datareg['telepon']);
 
+    //tangkap data orangtua
+    $namaAyah = mysqli_real_escape_string($koneksi, $datareg['namaAyah']);
+    $pekerjaanAyah = mysqli_real_escape_string($koneksi, $datareg['pekerjaanAyah']);
+    $penghasilanAyah = mysqli_real_escape_string($koneksi, $datareg['penghasilanAyah']);
+    $namaIbu = mysqli_real_escape_string($koneksi, $datareg['namaIbu']);
+    $pekerjaanIbu = mysqli_real_escape_string($koneksi, $datareg['pekerjaanIbu']);
+    $penghasilanIbu = mysqli_real_escape_string($koneksi, $datareg['penghasilanIbu']);
+
     // Query simpan data
     $queryRegistrasi = "INSERT INTO tbl_registrasi
-    (username, namaDepan, namaBelakang, tempatLahir, tglLahir, jenisKelamin, nisn, agama, sekolahAsal, alamat, telepon)
-    VALUES
-    ('$username', '$namaDepan', '$namaBelakang', '$tempatLahir', '$tglLahir', '$jenisKelamin', '$nisn', '$agama', '$sekolahAsal', '$alamat', '$telepon')";
+                        (username, namaDepan, namaBelakang, tempatLahir, tglLahir, jenisKelamin, nisn, agama, sekolahAsal, alamat, telepon)
+                        VALUES
+                        ('$username', '$namaDepan', '$namaBelakang', '$tempatLahir', '$tglLahir', '$jenisKelamin', '$nisn', '$agama', '$sekolahAsal', '$alamat', '$telepon')";
 
     mysqli_query($koneksi, $queryRegistrasi);
 
+     $hasilRegistrasi = mysqli_affected_rows($koneksi);
+
+    if($hasilRegistrasi == 1){
+        //cek data registrasi
+        $cekDtRegistrasi = "SELECT idRegis FROM tbl_registrasi WHERE username = '$username'";
+        $hasilCekDtRegistrasi = mysqli_query($koneksi, $cekDtRegistrasi);
+
+    $ambilDtIdRegistrasi = mysqli_fetch_assoc($hasilCekDtRegistrasi);
+        $idRegistrasi = $ambilDtIdRegistrasi['idRegis'];
+
+        //simpan data pada database
+        $inputDtOrtu = "INSERT INTO tbl_orangtua (idRegis, namaAyah, pekerjaanAyah, penghasilanAyah, namaIbu, pekerjaanIbu, penghasilanIbu)
+                        VALUES ('$idRegistrasi', '$namaAyah', '$pekerjaanAyah', '$penghasilanAyah', '$namaIbu', '$pekerjaanIbu', '$penghasilanIbu')";
+        $queryInputDtOrtu = mysqli_query($koneksi, $inputDtOrtu);
+
     return mysqli_affected_rows($koneksi);
 
-    //cara alternatif
+    // cara alternatif
     //$hasilRegis = mysqli_affected_rows($koneksi);
 
     // if($hasilRegis != 0){
@@ -114,7 +137,7 @@ function registrasi($datareg){
     //    }else{
     //        return 0;
     //    }
-
+    }
 }
 
 
