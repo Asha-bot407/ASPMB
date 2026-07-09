@@ -119,12 +119,12 @@
         <hr>
         <p>Silahkan isi biodata anda</p>
         <?php 
-            $username = $_SESSION['username'];
+        $username = $_SESSION['username'];
+                
+        if(cekRegistrasi($username) == 0):
             
-            if(cekRegistrasi($username) == 0):
-           
         ?>
-        <form action="" method="POST">
+    <form action="" method="POST">
             <label for="namaDepan">Nama Depan</label>
             <input type="text" name="namaDepan" id="namaDepan" required>
 
@@ -164,10 +164,10 @@
             <label for="telepon">Telepon/WA</label>
             <input type="text" name="telepon" id="telepon" required>
 
-            <button type="submit" class="btn btn-primary" name="registrasi">Submit</button>
+           
             
 
-        </form>
+        
         
         <?php 
             else:
@@ -177,6 +177,45 @@
         ?>
             
     
+
+
+        <div>
+            <fieldset>
+                <legend>Data Orang Tua</legend>
+
+                <div class="col-md-4">
+                    <label for="namaAyah" class="form-label fw-semibold">Nama Ayah</label>
+                    <input type="text" class="form-control form-control-lg" name="namaAyah" id="namaAyah" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="pekerjaanAyah" class="form-label fw-semibold">Pekerjaan Ayah</label>
+                    <input type="text" class="form-control form-control-lg" name="pekerjaanAyah" id="pekerjaanAyah" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="penghasilanAyah" class="form-label fw-semibold">Penghasilan Ayah (Rp)</label>
+                    <input type="number" class="form-control form-control-lg" name="penghasilanAyah" id="penghasilanAyah" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="namaIbu" class="form-label fw-semibold">Nama Ibu</label>
+                    <input type="text" class="form-control form-control-lg" name="namaIbu" id="namaIbu" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="pekerjaanIbu" class="form-label fw-semibold">Pekerjaan Ibu</label>
+                    <input type="text" class="form-control form-control-lg" name="pekerjaanIbu" id="pekerjaanIbu" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="penghasilanIbu" class="form-label fw-semibold">Penghasilan Ibu (Rp)</label>
+                    <input type="number" class="form-control form-control-lg" name="penghasilanIbu" id="penghasilanIbu" required>
+                </div>
+                    <br>
+                <div>
+                    <button type="submit" name="registrasi" id="registrasi">Submit Data</button>
+                </div>
+            </fieldset>
+            
+        </div>
+    </form>
 </div>
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
