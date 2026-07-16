@@ -27,6 +27,22 @@
         echo "<script>alert('Data gagal disimpan');</script>";
     }
     }
+
+    if(isset($_POST['hapus'])){
+
+    $hasil = hapusPendaftaran($_SESSION['username']);
+
+    if($hasil > 0){
+        echo "<script>
+            alert('Data pendaftaran berhasil dihapus');
+            document.location.href='registrasi.php';
+        </script>";
+    }else{
+        echo "<script>
+            alert('Data pendaftaran gagal dihapus');
+        </script>";
+    }
+}
 ?>
 
 
@@ -169,12 +185,7 @@
 
         
         
-        <?php 
-            else:
-                echo "Anda sudah mengisi formulir";
-            
-            endif;
-        ?>
+        
             
     
 
@@ -215,6 +226,65 @@
             </fieldset>
             
         </div>
+        <?php 
+            else:
+                echo "Anda sudah mengisi formulir";
+            
+            
+        ?>
+
+        <?php
+        $dataPendaftar = tampilPendaftar($username);
+                //var_dump($dataPendaftar);
+
+                foreach($dataPendaftar as $pendaftar):
+            ?>
+
+                <br>
+                <br>
+                <ul>
+                    <li>Nama Depan : <?= $pendaftar['namaDepan']; ?></li>
+                
+                    <li>Nama Belakang : <?= $pendaftar['namaBelakang']; ?></li>
+                
+                    <li>TTL : <?= $pendaftar['tempatLahir']; ?>, <?= $pendaftar['tglLahir']; ?></li>
+                
+                    <li>Jenis Kelamin : <?= $pendaftar['jenisKelamin']; ?></li>
+                
+                    <li>NISN : <?= $pendaftar['nisn']; ?></li>
+                
+                    <li>Agama : <?= $pendaftar['agama']; ?></li>
+                
+                    <li>Sekolah Asal : <?= $pendaftar['sekolahAsal']; ?></li>
+                
+                    <li>Alamat : <?= $pendaftar['alamat']; ?></li>
+                
+                    <li>Telepon : <?= $pendaftar['telepon']; ?></li>
+                </ul>
+                <p> <strong>Data Orang Tua</strong></p>
+                <ul>
+                    <li>Nama Ayah : <?= $pendaftar['namaAyah']; ?></li>
+                    <li>Pekerjaan Ayah : <?= $pendaftar['pekerjaanAyah']; ?></li>
+                    <li>Penghasilan Ayah : <?= $pendaftar['penghasilanAyah']; ?></li>
+                    <li>Nama Ibu : <?= $pendaftar['namaIbu']; ?></li>
+                    <li>Pekerjaan Ibu : <?= $pendaftar['pekerjaanIbu']; ?></li>
+                    <li>Penghasilan Ibu : <?= $pendaftar['penghasilanIbu']; ?></li>
+                </ul>
+
+            <?php
+                endforeach;
+                endif;
+
+            
+        ?>
+        <p>Edit Data <a href="editdatregis.php">Edit</a></p>
+    </form>
+    <form method="POST" style="display:inline;">
+    <button type="submit"
+            name="hapus"
+            onclick="return confirm('Yakin ingin menghapus data pendaftaran?')">
+        Hapus Pendaftaran
+    </button>
     </form>
 </div>
 
