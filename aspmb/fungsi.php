@@ -129,16 +129,103 @@ function registrasi($datareg){
 
     return mysqli_affected_rows($koneksi);
 
-    // cara alternatif
-    //$hasilRegis = mysqli_affected_rows($koneksi);
+    /* cara alternatif
+    $hasilRegis = mysqli_affected_rows($koneksi);
 
-    // if($hasilRegis != 0){
-    //        return 1;
-    //    }else{
-    //        return 0;
-    //    }
+     if($hasilRegis != 0){
+            return 1;
+        }else{
+            return 0;
+        }*/
     }
 }
 
+function tampilPendaftar($pendaftar){
+    global $koneksi;
+    $username = $pendaftar;
+ $tampilDtPendaftar = "SELECT * FROM tbl_registrasi AS r
+                        INNER JOIN tbl_orangtua AS o
+                        ON r.idRegis = o.idRegis 
+                        WHERE r.username = '$username'";
+    $queryTampilDtPendaftar = mysqli_query($koneksi, $tampilDtPendaftar);
+    
 
+    $rows = [];
+    while($row = mysqli_fetch_assoc($queryTampilDtPendaftar)){
+        $rows[] = $row;
+    }
+    return $rows;
+}
+
+// editregistrasi
+
+function editregistrasi($dataedit){
+    global $koneksi;
+
+    // Mengambil username dari session
+    $username = $_SESSION['username'];
+    $idRegis = $dataedit['idRegis'];
+
+    // Mengambil data dari form
+    $namaDepan = mysqli_real_escape_string($koneksi, $dataedit['namaDepan']);
+    $namaBelakang = mysqli_real_escape_string($koneksi, $dataedit['namaBelakang']);
+    $tempatLahir = mysqli_real_escape_string($koneksi, $dataedit['tempatLahir']);
+    $tglLahir = mysqli_real_escape_string($koneksi, $dataedit['tglLahir']);
+    $jenisKelamin = mysqli_real_escape_string($koneksi, $dataedit['jenisKelamin']);
+    $nisn = mysqli_real_escape_string($koneksi, $dataedit['nisn']);
+    $agama = mysqli_real_escape_string($koneksi, $dataedit['agama']);
+    $sekolahAsal = mysqli_real_escape_string($koneksi, $dataedit['sekolahAsal']);
+    $alamat = mysqli_real_escape_string($koneksi, $dataedit['alamat']);
+    $telepon = mysqli_real_escape_string($koneksi, $dataedit['telepon']);
+
+    //tangkap data orangtua
+    $namaAyah = mysqli_real_escape_string($koneksi, $dataedit['namaAyah']);
+    $pekerjaanAyah = mysqli_real_escape_string($koneksi, $dataedit['pekerjaanAyah']);
+    $penghasilanAyah = mysqli_real_escape_string($koneksi, $dataedit['penghasilanAyah']);
+    $namaIbu = mysqli_real_escape_string($koneksi, $dataedit['namaIbu']);
+    $pekerjaanIbu = mysqli_real_escape_string($koneksi, $dataedit['pekerjaanIbu']);
+    $penghasilanIbu = mysqli_real_escape_string($koneksi, $dataedit['penghasilanIbu']);
+
+    //query edit
+
+    $queryedit = "UPDATE tbl_registrasi
+                  SET namaDepan = '$namaDepan',
+                      namaBelakang = '$namaBelakang',
+                      tempatLahir = '$tempatLahir',
+                      tglLahir = '$tglLahir',
+                      jenisKelamin = '$jenisKelamin',
+                      nisn = '$nisn',
+                      agama = '$agama',
+                      sekolahAsal = '$sekolahAsal',
+                      alamat = '$alamat',
+                      telepon = '$telepon'
+                  WHERE username = '$username'";
+
+
+    $queryEditOrtu = "UPDATE tbl_orangtua
+                  SET namaAyah = '$namaAyah',
+                      pekerjaanAyah = '$pekerjaanAyah',
+                      penghasilanAyah = '$penghasilanAyah',
+                      namaIbu = '$namaIbu',
+                      pekerjaanIbu = '$pekerjaanIbu',
+                      penghasilanIbu = '$penghasilanIbu'
+                  WHERE idRegis = '$idRegis'";
+
+    mysqli_query($koneksi, $queryedit);
+    mysqli_query($koneksi, $queryEditOrtu);
+
+    return mysqli_affected_rows($koneksi);
+}
+
+// hapus data registrasi
+function hapusPendaftaran($username){
+    global $koneksi;
+
+    $username = mysqli_real_escape_string($koneksi, $username);
+
+    $hapusReg = "DELETE FROM tbl_registrasi WHERE username = '$username'";
+    mysqli_query($koneksi, $hapusReg);
+
+    return mysqli_affected_rows($koneksi);
+}
 ?>
